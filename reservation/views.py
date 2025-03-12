@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views import generic
+from .models import Trip
 
 
 # Create your views here.
-def my_reservation(request):
-   return HttpResponse("Hello, blog!")
+class TripListView(generic.ListView):
+    queryset = Trip.objects.all()
+    template_name = 'reservation/triplist.html'

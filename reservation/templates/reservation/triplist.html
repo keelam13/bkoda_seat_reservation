@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Views Part 1</title>
+</head>
+
+<body>
+    <h2>Trip Schedule</h2>
+<table class="table table-striped" >
+    <thead>
+        <td>TRIP NUMBER</td>
+        <td>ORIGIN</td>
+        <td>DESTINATION</td>
+        <td>TOTAL SEATS<td>
+        <td>AVAILABLE SEATS</td>
+        <td>DATE</td>
+        <td>TIME</td>
+    </thead>
+
+    {% for row in trip_list %}
+    <tr>
+        <td>{{row.trip_number}}</td>
+        <td>{{row.origin}}</td>
+        <td>{{row.destination}}</td>
+        <td>{{row.total_seats}}</td>
+        <td>{{row.available_seats}}</td>
+        <td>{{row.date}}</td>
+        <td>{{row.time}}</td>
+
+
+    </tr>
+    {% endfor %}
+</table>
+<form action="{% url 'reservation' %}" method="post">
+    <h3>Choose a trip</h3>
+    {% csrf_token %}
+    <div class="col-auto">
+        <label for="example-email-input" class="col-2 col-form-label">Trip Number</label>
+        <div class="col-5">
+            <input name='trip_number' class="form-control" type="number" id="example-email-input">
+        </div>
+    </div>
+    <div class="col=auto">
+        <label for="example-email-input" class="col-2 col-form-label">Number of seats</label>
+        <div class="col-5">
+            <input name='no_seats' class="form-control" type="number">
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="pull-right">
+        <button type="submit" class="btn btn-success float-left">Reserve a seat</button>
+    </div>
+
+
+    {{error}}
+
+</form>
+
+</body>
