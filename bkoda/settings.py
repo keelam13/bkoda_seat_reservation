@@ -31,6 +31,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'herokuapp.com',
+    'bkoda-ticket-booking-0c7c21b3aa13.herokuapp.com',
     '127.0.0.1',
 ]
 
