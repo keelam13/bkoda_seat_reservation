@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Views Part 1</title>
-</head>
-
+{% block content %}
 <body>
     <h2>Trip Schedule</h2>
 <table class="table table-striped" >
@@ -15,10 +8,10 @@
         <td>TRIP NUMBER</td>
         <td>ORIGIN</td>
         <td>DESTINATION</td>
-        <td>TOTAL SEATS<td>
-        <td>AVAILABLE SEATS</td>
         <td>DATE</td>
         <td>TIME</td>
+        <td>TOTAL NUMBER OF SEATS</td>
+        <td>AVAILABLE SEATS</td>
     </thead>
 
     {% for row in trip_list %}
@@ -26,22 +19,24 @@
         <td>{{row.trip_number}}</td>
         <td>{{row.origin}}</td>
         <td>{{row.destination}}</td>
-        <td>{{row.total_seats}}</td>
-        <td>{{row.available_seats}}</td>
         <td>{{row.date}}</td>
         <td>{{row.time}}</td>
-
-
+        <td>{{row.total_number_of_seats}}</td>
+        <td>{{row.available_seats}}</td>
     </tr>
     {% endfor %}
 </table>
-<form action="{% url 'reservation' %}" method="post">
+<form action="{% url 'home' %}" method="post">
     <h3>Choose a trip</h3>
     {% csrf_token %}
     <div class="col-auto">
-        <label for="example-email-input" class="col-2 col-form-label">Trip Number</label>
+        <label for="trip_number_select" class="col-2 col-form-label">Trip Number</label>
         <div class="col-5">
-            <input name='trip_number' class="form-control" type="number" id="example-email-input">
+            <select name='trip_number' class="form-control" id="trip_number_select">
+                {% for row in trip_list %}
+                    <option value="{{ row.trip_number }}">{{ row.trip_number }} - {{ row.origin }} to {{ row.destination }} ({{ row.date }})</option>
+                {% endfor %}
+            </select>
         </div>
     </div>
     <div class="col=auto">
@@ -62,3 +57,4 @@
 </form>
 
 </body>
+{% endblock %}
