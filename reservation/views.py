@@ -1,7 +1,9 @@
-from django.shortcuts import render
-from django.views import generic
-from .models import Trip
+from django.shortcuts import render, redirect
+from .models import Trip, User
 from datetime import datetime
+from django.contrib import messages
+from .forms import RegistrationForm
+
 
 
 # Create your views here.
@@ -38,3 +40,20 @@ def find_trip(request):
             return render(request, 'reservation/index.html', context)
     else:
         return render(request, 'reservation/index.html')
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)  # Instantiate the form with POST data
+        if form.is_valid():
+            user = form.save(commit=False)  # Create a new user object but don't save it yet
+            user.set_password(form.cleaned_data['password'])  # Hash the password
+            user.save()  # Now save the user
+            messages.success(request, 'Registration successful! Please log in.')
+            return redirect('login')  # Redirect to the login page
+        else:
+            # Form is invalid; render the registration page with the form and errors
+            return render(request, 'reservation/registration.html', {'form': form})
+    else:
+        form = RegistrationForm()  # Create an empty form for GET requests
+        return render(request, 'reservation/registration.html', {'form': form})

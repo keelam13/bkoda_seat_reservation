@@ -1,5 +1,6 @@
 {% load static %}
 {% url 'home' as home_url %}
+{% url 'register' as register_url %}
 
 
 <!doctype html>
@@ -44,7 +45,7 @@
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == signup_url %}active" aria-current="page {% endif %}"
-                        href="#">Register</a>
+                        href="{% url 'register' %}">Register</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == login_url %}active" aria-current="page {% endif %}"
