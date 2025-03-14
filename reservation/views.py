@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Trip, User
 from datetime import datetime
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
-from .forms import RegistrationForm
+from .forms import RegistrationForm, LoginForm
 
 
 
@@ -57,3 +58,30 @@ def register(request):
     else:
         form = RegistrationForm()  # Create an empty form for GET requests
         return render(request, 'reservation/registration.html', {'form': form})
+    
+
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth_login(request, user)  # Log in the user
+                messages.success(request, 'You are logged in!')
+                return redirect('home')
+            else:
+                messages.error(request, 'Invalid username or password.')
+                return render(request, 'reservation/login.html', {'form': form})
+        else:
+            return render(request, 'reservation/login.html', {'form': form})
+    else:
+        form = LoginForm()
+        return render(request, 'reservation/login.html', {'form': form})
+
+
+def signout(request):
+    logout(request)  # Log the user out
+    messages.success(request, 'You are logged out!')
+    return redirect('home')  # Redirect to the home page or another appropriate page

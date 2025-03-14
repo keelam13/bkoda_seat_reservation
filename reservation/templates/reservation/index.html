@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{error}}
+{{ error }}
+{{ messages }}
 <div class="container">
     <div class="row">
         <div class="col-sm-6 mx-auto" style="margin-top: 70px">    
             {% if user.is_authenticated %}
                 <p>Welcome, {{ user.username }}!</p>
             {% else %}
-                <p>Please <a href="#">log in</a> to access more features.</p>
+                <p>Please <a href="{% url 'login'%}">log in</a> to access more features.</p>
             {% endif %}
         </div>
     </div>

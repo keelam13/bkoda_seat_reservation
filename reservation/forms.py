@@ -19,3 +19,23 @@ class RegistrationForm(forms.ModelForm):
 
         return cleaned_data
     
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get("username")
+        password = cleaned_data.get("password")
+
+        if not User.objects.filter(username=username).exists():
+            raise ValidationError("Username does not exist.")
+
+        user = User.objects.get(username=username)
+        if not user.check_password(password):
+            raise ValidationError("Incorrect password.")
+
+        return cleaned_data
+
+    
