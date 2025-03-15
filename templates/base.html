@@ -42,16 +42,16 @@
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == logout_url %}active" aria-current="page {% endif %}"
-                    href="{% url 'logout' %}">Logout</a>
+                    href="{% url 'account_logout' %}">Logout</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == signup_url %}active" aria-current="page {% endif %}"
-                        href="{% url 'register' %}">Register</a>
+                        href="{% url 'account_signup' %}">Register</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if request.path == login_url %}active" aria-current="page {% endif %}"
-                    href="{% url 'login' %}">Login</a>
+                    href="{% url 'account_login' %}">Login</a>
                 </li>
                 {% endif %}
 
