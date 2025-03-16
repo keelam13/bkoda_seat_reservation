@@ -3,58 +3,39 @@
 {% block content %}
 <body>
     <h2>Trip Schedule</h2>
-<table class="table table-striped" >
-    <thead>
-        <td>TRIP NUMBER</td>
-        <td>ORIGIN</td>
-        <td>DESTINATION</td>
-        <td>DATE</td>
-        <td>TIME</td>
-        <td>TOTAL NUMBER OF SEATS</td>
-        <td>AVAILABLE SEATS</td>
-    </thead>
-
-    {% for row in trip_list %}
-    <tr>
-        <td>{{row.trip_number}}</td>
-        <td>{{row.origin}}</td>
-        <td>{{row.destination}}</td>
-        <td>{{row.date}}</td>
-        <td>{{row.time}}</td>
-        <td>{{row.total_number_of_seats}}</td>
-        <td>{{row.available_seats}}</td>
-    </tr>
-    {% endfor %}
-</table>
-<form action="{% url 'home' %}" method="post">
-    <h3>Choose a trip</h3>
-    {% csrf_token %}
-    <div class="col-auto">
-        <label for="trip_number_select" class="col-2 col-form-label">Trip Number</label>
-        <div class="col-5">
-            <select name='trip_number' class="form-control" id="trip_number_select">
-                {% for row in trip_list %}
-                    <option value="{{ row.trip_number }}">{{ row.trip_number }} - {{ row.origin }} to {{ row.destination }} ({{ row.date }})</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-    <div class="col=auto">
-        <label for="example-email-input" class="col-2 col-form-label">Number of seats</label>
-        <div class="col-5">
-            <input name='no_seats' class="form-control" type="number">
-        </div>
-    </div>
-    <br>
-    <br>
-    <div class="pull-right">
-        <button type="submit" class="btn btn-success float-left">Reserve a seat</button>
-    </div>
-
-
-    {{error}}
-
-</form>
-
+    <table class="table table-striped" >
+        <thead>
+            <tr>
+                <th>Trip Number</th>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Number of Seats</th>
+                <th>Available Seats</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        {% for row in trip_list %}
+        <tbody>
+            <tr>
+                <td>{{row.trip_number}}-{{row.trip_id}}</td>
+                <td>{{row.origin}}</td>
+                <td>{{row.destination}}</td>
+                <td>{{row.date}}</td>
+                <td>{{row.time}}</td>
+                <td>{{row.total_number_of_seats}}</td>
+                <td>{{row.available_seats}}</td>
+                <td>
+                    {% if row.trip_id %}
+                    <a href="{% url 'make_reservation' row.trip_id %}" class="btn btn-primary">Reserve</a>
+                    {% else %}
+                        <span>Trip ID not available</span>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
 </body>
 {% endblock %}

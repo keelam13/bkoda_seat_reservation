@@ -18,12 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from reservation import views
 
+print("urls called")
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', views.home_page, name='home'),
     path('find_trip', views.find_trip, name="find_trip"),
-    # path('register', views.register, name="register"),
-    # path('login', views.login, name="login"),
-    # path('logout', views.signout, name="logout"),
+    path('create/<int:trip_id>', views.make_reservation, name="make_reservation"),
+    path('reservation_list/', views.reservation_list, name="reservation_list"),
 ]

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>My Reservations</h2>
+    <ul>
+        {% for reservation in reservations %}
+            <li>{{ reservation }} - Seats: {{ reservation.number_of_seats }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
