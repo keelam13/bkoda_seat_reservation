@@ -84,7 +84,6 @@ def make_reservation(request, trip_id):
 
         else:
             messages.error(request, "Please correct the errors below.")
-            print(trip_id)
             return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
 
     else:
