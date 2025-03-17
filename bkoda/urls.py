@@ -24,6 +24,16 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', views.home_page, name='home'),
     path('find_trip', views.find_trip, name="find_trip"),
+    path(
+        'origin-autocomplete/',
+        views.OriginAutocomplete.as_view(),
+        name='origin-autocomplete',
+    ),
+    path(
+        'destination-autocomplete/',
+        views.DestinationAutocomplete.as_view(),
+        name='destination-autocomplete',
+    ),
     path('create/<int:trip_id>', views.make_reservation, name="make_reservation"),
     path('reservation_list/', views.reservation_list, name="reservation_list"),
 ]

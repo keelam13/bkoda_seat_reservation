@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
+<script src="{% static 'autocomplete_light/select2.js' %}"></script>
 
 {% block content %}
 <div class="container">
@@ -19,16 +21,18 @@
                 <form action="{% url 'find_trip' %}" method="POST">
                     {% csrf_token %}
                     <div class="form-group row">
-                        <label for="trip-from" class="col-2 col-form-label">From</label>
+                        <label for="origin" class="col-2 col-form-label">From</label>
                         <div class="col-10">
-                            <input name='origin' class="form-control" type="text" id="trip-from"
+                            <input name='origin' class="form-control" type="text" id="origin"
+                                data-autocomplete-light='{"url": "{% url "origin-autocomplete" %}"}'
                                 placeholder="Enter origin city" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="trip-to" class="col-2 col-form-label">To</label>
+                        <label for="destination" class="col-2 col-form-label">To</label>
                         <div class="col-10">
-                            <input name='destination' class="form-control" type="text" id="trip-to"
+                            <input name='destination' class="form-control" type="text" id="destination"
+                                data-autocomplete-light='{"url": "{% url "destination-autocomplete" %}"}'
                                 placeholder="Enter destination city" required>
                         </div>
                     </div>

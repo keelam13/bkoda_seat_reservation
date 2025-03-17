@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Trip, User, Reservation
-from datetime import datetime
 from django.contrib import messages
+from dal import autocomplete
+from datetime import datetime
+from .models import Trip, User, Reservation
 from .forms import ReservationForm
 
 print("view called")
@@ -23,11 +24,13 @@ def find_trip(request):
             # Convert the string date from the form to a datetime.date object
             requested_date = datetime.strptime(requested_date_str, '%Y-%m-%d').date() # Adjust the format string if needed.
             
+            # Use icontains for case-insensitive substring matching
             trip_list = Trip.objects.filter(
-                origin=requested_origin,
-                destination=requested_destination,
+                origin__icontains=requested_origin,
+                destination__icontains=requested_destination,
                 date=requested_date
             )
+
             # Check if there are any results in the QuerySet
             if trip_list.exists():
                 for trip in trip_list:
@@ -44,6 +47,22 @@ def find_trip(request):
     else:
         print(trip_list)
         return render(request, 'index.html')
+
+class OriginAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Trip.objects.values_list('origin', flat=True).distinct()
+
+        if self.q:
+            qs = qs.filter(origin__icontains=self.q)
+        return qs
+
+class DestinationAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Trip.objects.values_list('destination', flat=True).distinct()
+
+        if self.q:
+            qs = qs.filter(destination__icontains=self.q)
+        return qs
 
 
 @login_required
