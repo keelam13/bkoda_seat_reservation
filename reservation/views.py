@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from dal import autocomplete
-from datetime import datetime
+from datetime import datetime, timedelta
 from .models import Trip, User, Reservation
 from .forms import ReservationForm
 
@@ -15,38 +15,45 @@ def home_page(request):
 
 def find_trip(request):
     context = {}
-    if request.method == 'POST':
-        requested_origin = request.POST.get('origin')
-        requested_destination = request.POST.get('destination')
-        requested_date_str = request.POST.get('date')
+    requested_origin = request.GET.get('origin')
+    requested_destination = request.GET.get('destination')
+    requested_date_str = request.GET.get('date')
+    today = datetime.now().date()
 
+    if requested_date_str and requested_origin and requested_destination:
         try:
-            # Convert the string date from the form to a datetime.date object
-            requested_date = datetime.strptime(requested_date_str, '%Y-%m-%d').date() # Adjust the format string if needed.
-            
-            # Use icontains for case-insensitive substring matching
+            requested_date = datetime.strptime(requested_date_str, '%Y-%m-%d').date()
+            previous_day = requested_date - timedelta(days=1)
+            next_day = requested_date + timedelta(days=1)
+
             trip_list = Trip.objects.filter(
                 origin__icontains=requested_origin,
                 destination__icontains=requested_destination,
                 date=requested_date
-            ).order_by('date', 'time')  # Order by date and time
+            ).order_by('time')
 
-            # Check if there are any results in the QuerySet
             if trip_list.exists():
-                for trip in trip_list:
-                    print(trip.trip_id)
-                return render(request, 'reservation/triplist.html', {'trip_list': trip_list})
+                context = {
+                    'trip_list': trip_list,
+                    'origin': requested_origin,
+                    'destination': requested_destination,
+                    'current_day': requested_date,
+                    'previous_day': previous_day,
+                    'next_day': next_day,
+                }
+                return render(request, 'reservation/triplist.html', context)
+            elif requested_date < today:
+                context["error"] = "Sorry, the date you requested is in the past."
             else:
-                context["error"] = "Sorry, there are no trips available."
-                return render(request, 'index.html', context)
-
+                context["error"] = "Sorry, there are no trips available yet."
         except ValueError:
-            # Handle invalid date format
             context["error"] = "Invalid date format. Please use YYYY-MM-DD."
-            return render(request, 'index.html', context)
-    else:
-        print(trip_list)
-        return render(request, 'index.html')
+
+    origins = Trip.objects.values_list('origin', flat=True).distinct()
+    destinations = Trip.objects.values_list('destination', flat=True).distinct()
+    context['origins'] = origins
+    context['destinations'] = destinations
+    return render(request, 'index.html', context)
 
 class OriginAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):

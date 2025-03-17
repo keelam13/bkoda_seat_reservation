@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
+{% url 'find_trip' as find_trip %}
 
 {% block content %}
 <body>
-    <h2>Trip Schedule</h2>
+    <h2>Trips Schedule for {{ current_day|date:"Y-m-d" }}</h2>
+    <p>Origin: <strong>{{ origin }}</strong>, Destination: <strong>{{ destination }}</strong></p>
+    <a href="{% url 'find_trip' %}?date={{ previous_day|date:'Y-m-d' }}&origin={{ origin }}&destination={{ destination }}" class="btn btn-primary">Previous Day</a>
+    <a href="{% url 'find_trip' %}?date={{ next_day|date:'Y-m-d' }}&origin={{ origin }}&destination={{ destination }}" class="btn btn-primary">Next Day</a>
     <table class="table table-striped" >
         <thead>
             <tr>
@@ -16,6 +20,7 @@
                 <th>Action</th>
             </tr>
         </thead>
+        {{ error }}
         {% for row in trip_list %}
         <tbody>
             <tr>

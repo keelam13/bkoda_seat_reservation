@@ -7,8 +7,6 @@ class Command(BaseCommand):
     help = 'Generates sample trips'
 
     def handle(self, *args, **options):
-        origins = ['Kabayan', 'Baguio']
-        destinations = ['Kabayan', 'Baguio']
         start_date = datetime.now().date()
         end_date = start_date + timedelta(days=14)  # Generate for the next 14 days
         time_intervals = [time(hour) for hour in range(6, 16, 2)]
