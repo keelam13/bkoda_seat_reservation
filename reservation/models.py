@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Trip(models.Model):
     trip_id = models.AutoField(primary_key=True)
-    trip_number = models.CharField(max_length=10, db_index=True)
+    trip_number = models.CharField(max_length=30, db_index=True)
     origin = models.CharField(max_length=30, db_index=True)
     destination = models.CharField(max_length=30, db_index=True)
     date = models.DateField(db_index=True)

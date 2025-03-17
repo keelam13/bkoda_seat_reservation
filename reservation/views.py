@@ -29,7 +29,7 @@ def find_trip(request):
                 origin__icontains=requested_origin,
                 destination__icontains=requested_destination,
                 date=requested_date
-            )
+            ).order_by('date', 'time')  # Order by date and time
 
             # Check if there are any results in the QuerySet
             if trip_list.exists():
