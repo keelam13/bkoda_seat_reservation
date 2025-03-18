@@ -19,6 +19,7 @@ def find_trip(request):
     requested_destination = request.GET.get('destination')
     requested_date_str = request.GET.get('date')
     today = datetime.now().date()
+    now = datetime.now()
 
     if requested_date_str and requested_origin and requested_destination:
         try:
@@ -31,6 +32,12 @@ def find_trip(request):
                 destination__icontains=requested_destination,
                 date=requested_date
             ).order_by('time')
+
+             # Filter out trips in the past hours
+            if requested_date == today:
+                trip_list = trip_list.filter(time__gte=now.time())
+
+            trip_list = trip_list.order_by('time')
 
             if trip_list.exists():
                 context = {
