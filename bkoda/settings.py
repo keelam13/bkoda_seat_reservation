@@ -34,6 +34,8 @@ ALLOWED_HOSTS = [
     'herokuapp.com',
     'bkoda-seat-reservation-5dffea85a169.herokuapp.com',
     '127.0.0.1',
+    'bkq6xnn8-8000.euw.devtunnels.ms',
+    'localhost',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -57,7 +59,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.facebook', # For Facebook login
     'reservation',
     'dal',
     'dal_select2',
@@ -98,15 +100,46 @@ TEMPLATES = [
     },
 ]
 
-SOCIALACCOUNT_PROVIDERS = {
-    'github': {
-        'APP': {
-            'client_id': '123',
-            'secret': '456',
-            'key': ''
-        }
-    }
-}
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = '127.0.0.1'
+EMAIL_PORT = '8000'
+EMAIL_USE_TLS = True
+
+ACCOUNT_EMAIL_VERIFICATION = 'none' # None for development
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     'facebook': {
+#         'APP': {
+#             'client_id': '1359722371958371',
+#             'secret': '●●●●●●●●',
+#             'key': ''
+#         },
+#         'METHOD': 'oauth2',
+#         'SCOPE': ['email', 'public_profile'],
+#         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+#         'INIT_PARAMS': {'cookie': True},
+#         'FIELDS': [
+#             'id',
+#             'email',
+#             'name',
+#             'first_name',
+#             'last_name',
+#             'verified',
+#             'locale',
+#             'timezone',
+#             'link',
+#             'gender',
+#             'updated_time',
+#         ],
+#         'EXCHANGE_TOKEN': True,
+#         'LOCALE_FUNC': lambda request: 'en_US',
+#         'VERIFIED_EMAIL': False,
+#         'VERSION': 'v22.0',
+#         'SOCIALACCOUNT_LOGIN_ON_GET': True,
+#     }
+# }
+
 
 WSGI_APPLICATION = 'bkoda.wsgi.application'
 
@@ -164,10 +197,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'reservation/static')
 ]
 
 # Default primary key field type
