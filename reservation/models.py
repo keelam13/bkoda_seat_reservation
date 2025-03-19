@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 from django.contrib.auth.models import User
 
 
@@ -25,3 +26,16 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"Reservation for {self.user.username} - {self.trip.trip_number} ({self.date})"
+
+@admin.register(Reservation)
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'trip', 'date', 'time', 'number_of_seats')
+    list_filter = ('user', 'trip', 'date')
+    search_fields = ('user__username', 'trip__trip_number', 'trip__origin','id', 'date')
+    ordering = ('-date', '-time')
+    readonly_fields = ('user',) #user can not be changed from the admin panel.
+    fieldsets = (
+        ('Reservation Details', {
+            'fields': ('user', 'trip', 'date', 'time', 'number_of_seats')
+        }),
+    )
