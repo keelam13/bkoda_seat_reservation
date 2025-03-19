@@ -130,8 +130,55 @@ def make_reservation(request, trip_id):
         form = ReservationForm(initial={'date': trip.date}) # pre-fill date with trip date.
         return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
 
+
 @login_required
 def reservation_list(request):
     """View to display the user's reservations."""
     reservations = Reservation.objects.filter(user=request.user).order_by('date')
     return render(request, 'reservation/reservation_list.html', {'reservations': reservations})
+
+
+@login_required
+def edit_reservation(request, reservation_id):
+    """View to edit a reservation."""
+    reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
+    trip = reservation.trip
+    
+    if request.method == 'POST':
+        form = ReservationForm(request.POST, instance=reservation)
+        reserved_seats = reservation.number_of_seats
+        print(f'reserved seats - {reserved_seats}')
+        
+        if form.is_valid():
+            number_of_seats = form.cleaned_data['number_of_seats']
+            reservation_date = form.cleaned_data['date']
+
+            if reservation_date != trip.date:
+                messages.error(request, "Reservation date must match the trip date.")
+                return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
+
+            # Calculate the difference in seats
+            seat_diff = number_of_seats - reserved_seats
+            print(f'seat-diff {seat_diff}, no_of_seats {number_of_seats}, reserved_seats {reserved_seats}')
+
+            # Check if enough seats are available
+            if trip.available_seats < seat_diff:
+                messages.error(request, "Not enough seats available.")
+                return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
+
+            # Update available seats
+            trip.available_seats -= seat_diff
+
+            print(f'av_seats_left - {trip.available_seats}')
+            trip.save()
+
+            # Save the reservation
+            form.save()
+            messages.success(request, "Reservation updated successfully!")
+            return redirect('reservation_list')
+        else:
+            messages.error(request, "Please correct the errors below.")
+            return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
+    else:
+        form = ReservationForm(instance=reservation)
+    return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})

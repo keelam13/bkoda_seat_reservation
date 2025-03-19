@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
+{% url 'home' as home_url %}
+{% url 'edit_reservation' %}
 {% load custom_filters %}
+
 
 {% block content %}
 <div class="container mt-5">
@@ -7,7 +10,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Trip Number</th>
+                <th>Reservation ID</th>
                 <th>Trip Route</th>
                 <th>Date</th>
                 <th>Time</th>
@@ -19,7 +22,7 @@
         <tbody>
             {% for reservation in reservations %}
             <tr>
-                <td>{{ reservation.trip.trip_number }}</td>
+                <td>{{ reservation.id }}</td>
                 <td>{{ reservation.trip.origin }} - {{ reservation.trip.destination }}</td>
                 <td>{{ reservation.date }}</td>
                 <td>{{ reservation.time }}</td>
@@ -28,7 +31,7 @@
                     {% if reservation.date|is_before_now:reservation.time %}
                     <span>Past Trip</span>
                     {% else %}
-                    <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'edit_reservation' reservation.id %}" class="btn btn-primary btn-sm">Update Seats</a>
                     <a href="#" class="btn btn-danger btn-sm">Cancel</a>
                     {% endif %}
                 </td>
@@ -39,5 +42,8 @@
         <p>You haven't made any reservations yet.</p>
         {% endif %}
     </table>
+    <button>
+        <a href="{% url 'home' %}">Back to Home Page</a>
+    </button>
 </div>
 {% endblock %}
