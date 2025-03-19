@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% url 'home' as home_url %}
 {% url 'find_trip' as find_trip %}
 {% load custom_filters %}
 
@@ -45,5 +46,6 @@
         </tbody>
         {% endfor %}
     </table>
+    <button><a href="{% url 'home' %}">Edit Search</a></button>
 </body>
 {% endblock %}
