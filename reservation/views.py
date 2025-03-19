@@ -107,13 +107,15 @@ def make_reservation(request, trip_id):
                 return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
 
             # Create the reservation
+            print(f"Trip time before assignment: {trip.time}")
             reservation = Reservation.objects.create(
                 user=request.user,
                 trip=trip,
                 number_of_seats=number_of_seats,
-                date=reservation_date,
+                date=trip.date,
+                time=trip.time,
             )
-
+            print(f"Reservation time: {reservation.time}") 
             # Update available seats
             trip.available_seats -= number_of_seats
             trip.save()
@@ -124,7 +126,6 @@ def make_reservation(request, trip_id):
         else:
             messages.error(request, "Please correct the errors below.")
             return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
-
     else:
         form = ReservationForm(initial={'date': trip.date}) # pre-fill date with trip date.
         return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
@@ -134,5 +135,3 @@ def reservation_list(request):
     """View to display the user's reservations."""
     reservations = Reservation.objects.filter(user=request.user).order_by('date')
     return render(request, 'reservation/reservation_list.html', {'reservations': reservations})
-
-        

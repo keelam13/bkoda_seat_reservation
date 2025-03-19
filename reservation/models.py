@@ -21,10 +21,7 @@ class Reservation(models.Model):
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
     number_of_seats = models.IntegerField(default=1)
     date = models.DateField()
+    time = models.TimeField(null=True, blank=True)
 
     def __str__(self):
         return f"Reservation for {self.user.username} - {self.trip.trip_number} ({self.date})"
-
-
-
-
