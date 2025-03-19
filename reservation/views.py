@@ -148,7 +148,7 @@ def edit_reservation(request, reservation_id):
         form = ReservationForm(request.POST, instance=reservation)
         reserved_seats = reservation.number_of_seats
         print(f'reserved seats - {reserved_seats}')
-        
+
         if form.is_valid():
             number_of_seats = form.cleaned_data['number_of_seats']
             reservation_date = form.cleaned_data['date']
@@ -182,3 +182,21 @@ def edit_reservation(request, reservation_id):
     else:
         form = ReservationForm(instance=reservation)
     return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
+
+
+@login_required
+def cancel_reservation(request, reservation_id):
+    """View to cancel a reservation."""
+    reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
+    trip = reservation.trip
+
+    if request.method == 'POST':
+        # Return the seats to available seats on the trip
+        trip.available_seats += reservation.number_of_seats
+        trip.save()
+
+        reservation.delete()
+        messages.success(request, "Reservation canceled successfully!")
+        return redirect('reservation_list')
+
+    return render(request, 'reservation/cancel_confirmation.html', {'reservation': reservation})

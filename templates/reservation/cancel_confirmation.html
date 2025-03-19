@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Cancel Reservation</h1>
+
+  <p>Are you sure you want to cancel your reservation for trip {{ reservation.trip.trip_number }}?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, Cancel</button>
+    <a href="{% url 'reservation_list' %}">No, Go Back</a>
+  </form>
+
+{% endblock %}

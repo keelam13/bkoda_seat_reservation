@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% url 'home' as home_url %}
 {% url 'edit_reservation' %}
+"{% url 'cancel_reservation' %}"
 {% load custom_filters %}
 
 
@@ -32,7 +33,7 @@
                     <span>Past Trip</span>
                     {% else %}
                     <a href="{% url 'edit_reservation' reservation.id %}" class="btn btn-primary btn-sm">Update Seats</a>
-                    <a href="#" class="btn btn-danger btn-sm">Cancel</a>
+                    <a href="{% url 'cancel_reservation' reservation.id %}" class="btn btn-danger btn-sm">Cancel</a>
                     {% endif %}
                 </td>
             </tr>
