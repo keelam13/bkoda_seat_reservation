@@ -11,7 +11,7 @@ class Trip(models.Model):
     destination = models.CharField(max_length=30, db_index=True)
     date = models.DateField(db_index=True)
     time = models.TimeField()
-    total_number_of_seats = models.IntegerField()
+    total_seats = models.IntegerField()
     available_seats = models.IntegerField()
 
     def __str__(self):
@@ -26,6 +26,14 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"Reservation for {self.user.username} - {self.trip.trip_number} ({self.date})"
+    
+
+@admin.register(Trip)
+class TripAdmin(admin.ModelAdmin):
+    list_display = ('trip_number', 'origin', 'destination', 'date', 'time', 'total_seats', 'available_seats')
+    search_fields = ('trip_number', 'origin', 'date')
+    list_filter = ('origin', 'destination', 'date')
+
 
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
