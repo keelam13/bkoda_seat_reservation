@@ -1,25 +1,46 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load allauth account %}
+
 {% block head_title %}
+<header>
     {% trans "Sign In" %}
+</header>
 {% endblock head_title %}
+
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign In" %}
-    {% endelement %}
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 mx-auto" style="margin-top: 70px">
+                {% element h1 %}
+                <h1>
+                    {% trans "Sign In" %}
+                </h1>
+                {% endelement %}
+            </div>
+        </div>
+    </div>
+
     {% if not SOCIALACCOUNT_ONLY %}
+        <section>
         {% setvar link %}
             <a href="{{ signup_url }}">
             {% endsetvar %}
             {% setvar end_link %}
             </a>
         {% endsetvar %}
+
         {% element p %}
+            <p>
             {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
+            </p>
         {% endelement %}
+
         {% url 'account_login' as login_url %}
+        
         {% element form form=form method="post" action=login_url tags="entrance,login" %}
+        <form>
             {% slot body %}
                 {% csrf_token %}
                 {% element fields form=form unlabeled=True %}
@@ -31,9 +52,13 @@
                     {% trans "Sign In" %}
                 {% endelement %}
             {% endslot %}
+        </form>
         {% endelement %}
+    </section>
     {% endif %}
+
     {% if LOGIN_BY_CODE_ENABLED or PASSKEY_LOGIN_ENABLED %}
+    <section>
         {% element hr %}
         {% endelement %}
         {% element button_group vertical=True %}
@@ -48,8 +73,11 @@
                 {% endelement %}
             {% endif %}
         {% endelement %}
+    </section>
     {% endif %}
+
     {% if SOCIALACCOUNT_ENABLED %}
+
         {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
     {% endif %}
 {% endblock content %}
@@ -58,4 +86,6 @@
     {% if PASSKEY_LOGIN_ENABLED %}
         {% include "mfa/webauthn/snippets/login_script.html" with button_id="passkey_login" %}
     {% endif %}
+</body>
 {% endblock %}
+

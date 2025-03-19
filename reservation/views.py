@@ -31,15 +31,14 @@ def find_trip(request):
                 origin__icontains=requested_origin,
                 destination__icontains=requested_destination,
                 date=requested_date
-            ).order_by('time')
+            )
 
-             # Filter out trips in the past hours
-            if requested_date == today:
-                trip_list = trip_list.filter(time__gte=now.time())
+            # Filter out past trips
+            trip_list = [trip for trip in trip_list if datetime.combine(trip.date, trip.time) >= now]
 
-            trip_list = trip_list.order_by('time')
+            trip_list = sorted(trip_list, key=lambda trip: trip.time)
 
-            if trip_list.exists():
+            if len(trip_list) > 0:
                 context = {
                     'trip_list': trip_list,
                     'origin': requested_origin,
@@ -48,14 +47,21 @@ def find_trip(request):
                     'previous_day': previous_day,
                     'next_day': next_day,
                 }
+                for trip in trip_list:
+                    print(f"Trip: {trip.date} {trip.time}")
                 return render(request, 'reservation/triplist.html', context)
             elif requested_date < today:
                 context["error"] = "Sorry, the date you requested is in the past."
+                # context["previous_day"] = previous_day
+                # context["next_day"] = next_day
+                # context["current_day"] = requested_date
+
+                # return render(request, 'reservation/triplist.html', context)
             else:
                 context["error"] = "Sorry, there are no trips available yet."
         except ValueError:
             context["error"] = "Invalid date format. Please use YYYY-MM-DD."
-
+    
     origins = Trip.objects.values_list('origin', flat=True).distinct()
     destinations = Trip.objects.values_list('destination', flat=True).distinct()
     context['origins'] = origins
