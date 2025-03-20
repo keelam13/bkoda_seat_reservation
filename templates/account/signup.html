@@ -1,45 +1,44 @@
 {% extends "base.html" %}
 {% load allauth i18n %}
+
 {% block head_title %}
-    {% trans "Signup" %}
+    <title>{% trans "Signup" %}</title>
 {% endblock head_title %}
+
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign Up" %}
-    {% endelement %}
-    {% setvar link %}
-        <a href="{{ login_url }}">
-        {% endsetvar %}
-        {% setvar end_link %}
-        </a>
-    {% endsetvar %}
-    {% element p %}
-        {% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}
-    {% endelement %}
-    {% if not SOCIALACCOUNT_ONLY %}
-        {% url 'account_signup' as action_url %}
-        {% element form form=form method="post" action=action_url tags="entrance,signup" %}
-            {% slot body %}
-                {% csrf_token %}
-                {% element fields form=form unlabeled=True %}
-                {% endelement %}
-                {{ redirect_field }}
-            {% endslot %}
-            {% slot actions %}
-                {% element button tags="prominent,signup" type="submit" %}
-                    {% trans "Sign Up" %}
-                {% endelement %}
-            {% endslot %}
-        {% endelement %}
-    {% endif %}
-    {% if PASSKEY_SIGNUP_ENABLED %}
-        {% element hr %}
-        {% endelement %}
-        {% element button href=signup_by_passkey_url tags="prominent,signup,outline,primary" %}
-            {% trans "Sign up using a passkey" %}
-        {% endelement %}
-    {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endif %}
+<main class="container mt-4">
+    <article>
+        <header class="mb-4 text-center">
+            <h1>{% trans "Sign Up" %}</h1>
+        </header>
+
+        <section class="mb-4 text-center">
+            <p class="lead">{% blocktranslate %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktranslate %}</p>
+        </section>
+
+        {% if not SOCIALACCOUNT_ONLY %}
+        <form method="post" action="{% url 'account_signup' %}" class="mb-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {{ redirect_field }}
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-success">{% trans "Sign Up" %}</button>
+            </div>
+        </form>
+        {% endif %}
+
+        {% if PASSKEY_SIGNUP_ENABLED %}
+        <section class="mb-4 text-center">
+            <hr>
+            <a href="{% url 'account_signup_passkey' %}" class="btn btn-outline-primary">{% trans "Sign up using a passkey" %}</a>
+        </section>
+        {% endif %}
+
+        {% if SOCIALACCOUNT_ENABLED %}
+        <section class="mb-4">
+            <!-- {% include "socialaccount/snippets/login.html" with page_layout="entrance" %} -->
+        </section>
+        {% endif %}
+    </article>
+</main>
 {% endblock content %}
