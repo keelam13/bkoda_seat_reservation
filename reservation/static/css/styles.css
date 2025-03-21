@@ -1,5 +1,19 @@
 body {
-    background: rgba(0, 0, 0, 0.2)
-        url('/static/images/welcome-kabayan.jpg')
+    background: url('/static/images/welcome_kabayan.webp')
         center center / cover no-repeat fixed;
+    color: white;
+}
+
+
+/* Home */
+.welcome-message{
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding-top: .5rem;
+}
+
+.search-box {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 1.5rem;
 }
