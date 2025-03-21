@@ -1,5 +1,11 @@
 {% load static %}
 
+{% url 'home' as home_url %}
+{% url 'reservation_list' as reservation_list_url %}
+{% url 'account_login' as login_url %}
+{% url 'account_signup' as register_url %}
+{% url 'account_logout' as logout_url %}
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,21 +28,26 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" aria-current="page" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link {% if request.path == home_url %}active{% endif %}" aria-current="page"
+                            href="{% url 'home' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == reservation_list_url %}active{% endif %}" href="{% url 'reservation_list' %}">My Reservations</a>
+                        <a class="nav-link {% if request.path == reservation_list_url %}active{% endif %}" aria-current="page"
+                            href="{% url 'reservation_list' %}">My Reservations</a>
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+                            <a class="nav-link {% if request.path == account_logout_url %}active{% endif %}" aria-current="page"
+                                href="{% url 'account_logout' %}">Logout</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == register_url %}active{% endif %}" href="{% url 'account_signup' %}">Register</a>
+                            <a class="nav-link {% if request.path == register_url %}active{% endif %}" aria-current="page"
+                                href="{% url 'account_signup' %}">Register</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == login_url %}active{% endif %}" href="{% url 'account_login' %}">Login</a>
+                            <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page" 
+                                href="{% url 'account_login' %}">Login</a>
                         </li>
                     {% endif %}
                 </ul>
