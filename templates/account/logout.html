@@ -1,26 +1,20 @@
 {% extends "base.html" %}
 {% load allauth i18n %}
 
-{% block head_title %}
-    <title>{% trans "Sign Out" %}</title>
-{% endblock head_title %}
-
 {% block content %}
-<main class="container mt-4">
-    <article>
-        <header class="mb-4 text-center">
-            <h1>{% trans "Sign Out" %}</h1>
-        </header>
+<article>
+    <header class="mb-4 text-center">
+        <h1>{% trans "Sign Out" %}</h1>
+    </header>
 
-        <section class="mb-4 text-center">
-            <p class="lead">{% trans 'Are you sure you want to sign out?' %}</p>
-        </section>
+    <section class="mb-4 text-center">
+        <p class="lead">{% trans 'Are you sure you want to sign out?' %}</p>
+    </section>
 
-        <form method="post" action="{% url 'account_logout' %}" class="text-center">
-            {% csrf_token %}
-            {{ redirect_field }}
-            <button type="submit" class="btn btn-danger">{% trans 'Sign Out' %}</button>
-        </form>
-    </article>
-</main>
+    <form method="post" action="{% url 'account_logout' %}" class="text-center">
+        {% csrf_token %}
+        {{ redirect_field }}
+        <button type="submit" class="btn btn-danger">{% trans 'Sign Out' %}</button>
+    </form>
+</article>
 {% endblock content %}

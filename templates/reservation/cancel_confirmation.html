@@ -1,19 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<article>
+    <h2 class="mb-4">Cancel Reservation</h2>
 
-<main class="container mt-4">
-    <article>
-        <h2 class="mb-4">Cancel Reservation</h2>
+    <p class="lead mb-3">Are you sure you want to cancel your reservation for trip {{ reservation.trip.trip_number }}?
+    </p>
 
-        <p class="lead mb-3">Are you sure you want to cancel your reservation for trip {{ reservation.trip.trip_number }}?</p>
-
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Yes, Cancel Reservation</button>
-            <a href="{% url 'reservation_list' %}" class="btn btn-secondary">No, Go Back to Reservations</a>
-        </form>
-    </article>
-</main>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Cancel Reservation</button>
+        <a href="{% url 'reservation_list' %}" class="btn btn-secondary">No, Go Back to Reservations</a>
+    </form>
+</article>
 
 {% endblock %}

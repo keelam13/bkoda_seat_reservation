@@ -2,60 +2,27 @@
 {% load i18n %}
 {% load allauth account %}
 
-{% block head_title %}
-    <title>{% trans "Sign In" %}</title>
-{% endblock head_title %}
-
 {% block content %}
-<main class="container mt-4">
-    <article>
-        <header class="mb-4 text-center">
-            <h1>{% trans "Sign In" %}</h1>
-        </header>
+<header class="mb-4 text-center">
+    <h1>{% trans "Sign In" %}</h1>
+</header>
 
-        {% if not SOCIALACCOUNT_ONLY %}
-        <section class="mb-4">
-            <p>
-                {% blocktranslate %}If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.{% endblocktranslate %}
-            </p>
+<section class="mb-4">
+    <p>
+        {% blocktranslate %}
+        If you have not created an account yet, then please
+        <a href="{{ signup_url }}">sign up</a> first.
+        {% endblocktranslate %}
+    </p>
 
-            <form method="post" action="{% url 'account_login' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                {{ redirect_field }}
-                <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
-                </div>
-            </form>
-        </section>
-        {% endif %}
+    <form method="post" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ redirect_field }}
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+        </div>
+    </form>
+</section>
 
-        {% if LOGIN_BY_CODE_ENABLED or PASSKEY_LOGIN_ENABLED %}
-        <section class="mb-4 text-center">
-            <hr>
-            <div>
-                {% if PASSKEY_LOGIN_ENABLED %}
-                    <button type="submit" form="mfa_login" id="passkey_login" class="btn btn-outline-primary mb-2">{% trans "Sign in with a passkey" %}</button>
-                {% endif %}
-                {% if LOGIN_BY_CODE_ENABLED %}
-                    <a href="{% url 'account_login_code' %}" class="btn btn-outline-primary">{% trans "Send me a sign-in code" %}</a>
-                {% endif %}
-            </div>
-        </section>
-        {% endif %}
-
-        {% if SOCIALACCOUNT_ENABLED %}
-            <section class="mb-4">
-                <!-- {% include "socialaccount/snippets/login.html" with page_layout="entrance" %} -->
-            </section>
-        {% endif %}
-    </article>
-</main>
 {% endblock content %}
-
-{% block extra_body %}
-    {{ block.super }}
-    {% if PASSKEY_LOGIN_ENABLED %}
-        {% include "mfa/webauthn/snippets/login_script.html" with button_id="passkey_login" %}
-    {% endif %}
-{% endblock extra_body %}

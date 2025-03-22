@@ -1,44 +1,29 @@
 {% extends "base.html" %}
 {% load allauth i18n %}
 
-{% block head_title %}
-    <title>{% trans "Signup" %}</title>
-{% endblock head_title %}
-
 {% block content %}
-<main class="container mt-4">
-    <article>
-        <header class="mb-4 text-center">
-            <h1>{% trans "Sign Up" %}</h1>
-        </header>
+<article>
+    <header class="mb-4 text-center">
+        <h1>{% trans "Sign Up" %}</h1>
+    </header>
 
-        <section class="mb-4 text-center">
-            <p class="lead">{% blocktranslate %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktranslate %}</p>
-        </section>
+    <section class="mb-4 text-center">
+        <p class="lead">{% blocktranslate %}
+            Already have an account? Then please
+            <a href="{{ login_url }}">sign in</a>.
+            {% endblocktranslate %}
+        </p>
+    </section>
 
-        {% if not SOCIALACCOUNT_ONLY %}
-        <form method="post" action="{% url 'account_signup' %}" class="mb-4">
-            {% csrf_token %}
-            {{ form.as_p }}
-            {{ redirect_field }}
-            <div class="text-center mt-3">
-                <button type="submit" class="btn btn-success">{% trans "Sign Up" %}</button>
-            </div>
-        </form>
-        {% endif %}
-
-        {% if PASSKEY_SIGNUP_ENABLED %}
-        <section class="mb-4 text-center">
-            <hr>
-            <a href="{% url 'account_signup_passkey' %}" class="btn btn-outline-primary">{% trans "Sign up using a passkey" %}</a>
-        </section>
-        {% endif %}
-
-        {% if SOCIALACCOUNT_ENABLED %}
-        <section class="mb-4">
-            <!-- {% include "socialaccount/snippets/login.html" with page_layout="entrance" %} -->
-        </section>
-        {% endif %}
-    </article>
-</main>
+    {% if not SOCIALACCOUNT_ONLY %}
+    <form method="post" action="{% url 'account_signup' %}" class="mb-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ redirect_field }}
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-success">{% trans "Sign Up" %}</button>
+        </div>
+    </form>
+    {% endif %}
+</article>
 {% endblock content %}

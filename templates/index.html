@@ -4,59 +4,47 @@
 <script src="{% static 'autocomplete_light/select2.js' %}"></script>
 
 {% block content %}
-
-<section class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 text-center welcome-message">
-            {% if user.is_authenticated %}
+<article class="text-white">
+    <section class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center welcome-message">
+                {% if user.is_authenticated %}
                 <p class="lead">Welcome, <strong>{{ user.username }}</strong>!</p>
-            {% else %}
+                {% else %}
                 <p class="lead">Please <a href="{% url 'account_login' %}">log in</a> to access more features.</p>
-            {% endif %}
-        </div>
-    </div>
-</section>
-
-{% if error %}
-<section class="container mt-3">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="alert alert-danger" role="alert">
-                {{ error }}
+                {% endif %}
             </div>
         </div>
-    </div>
-</section>
-{% endif %}
+    </section>
 
-<section class="container mt-5">
-    <div class="row justify-content-left">
-        <div class="col-md-6 search-box">
-            <h2 class="mb-4 text-center">Search Trips</h2>
-            <form action="{% url 'find_trip' %}" method="GET">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="origin" class="form-label">From</label>
-                    <input name='origin' class="form-control" type="text" id="origin"
-                           data-autocomplete-light='{"url": "{% url "origin-autocomplete" %}"}'
-                           placeholder="Enter origin city" required>
-                </div>
-                <div class="mb-3">
-                    <label for="destination" class="form-label">To</label>
-                    <input name='destination' class="form-control" type="text" id="destination"
-                           data-autocomplete-light='{"url": "{% url "destination-autocomplete" %}"}'
-                           placeholder="Enter destination city" required>
-                </div>
-                <div class="mb-3">
-                    <label for="departure-date" class="form-label">Date</label>
-                    <input name='date' class="form-control" type="date" id="departure-date" required>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-success">Search</button>
-                </div>
-            </form>
+    <section class="container mt-5">
+        <div class="row justify-content-left">
+            <div class="col-md-6 search-box">
+                <h2 class="mb-4 text-center">Search Trips</h2>
+                <form action="{% url 'find_trip' %}" method="GET">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="origin" class="form-label">From</label>
+                        <input name='origin' class="form-control" type="text" id="origin"
+                            data-autocomplete-light='{"url": "{% url "origin-autocomplete" %}"}'
+                            placeholder="Enter origin city" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="destination" class="form-label">To</label>
+                        <input name='destination' class="form-control" type="text" id="destination"
+                            data-autocomplete-light='{"url": "{% url "destination-autocomplete" %}"}'
+                            placeholder="Enter destination city" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="departure-date" class="form-label">Date</label>
+                        <input name='date' class="form-control" type="date" id="departure-date" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-</section>
-
+    </section>
+</article>
 {% endblock %}
