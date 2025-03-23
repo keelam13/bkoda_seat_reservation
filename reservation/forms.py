@@ -19,6 +19,5 @@ class ReservationForm(forms.ModelForm):
 
     def clean_date(self):
         date = self.cleaned_data['date']
-        # You can add additional date validation here, if needed.
         return date
 

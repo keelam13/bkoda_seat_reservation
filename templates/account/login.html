@@ -3,26 +3,31 @@
 {% load allauth account %}
 
 {% block content %}
-<header class="mb-4 text-center">
-    <h1>{% trans "Sign In" %}</h1>
-</header>
+<article class="container mt-5 text-white">
+    <div class="row justify-content-center">
+        <div class="col-md-6 form-group">
+            <h2 class="mb-4 text-center">
+                {% trans "Sign In" %}
+            </h2>
+            <section class="mb-4">
+                <p class="font-italic">
+                    {% blocktranslate %}
+                    If you have not created an account yet, then please
+                    <a href="{{ signup_url }}">sign up</a> first.
+                    {% endblocktranslate %}
+                </p>
 
-<section class="mb-4 forms-group">
-    <p>
-        {% blocktranslate %}
-        If you have not created an account yet, then please
-        <a href="{{ signup_url }}">sign up</a> first.
-        {% endblocktranslate %}
-    </p>
-
-    <form method="post" action="{% url 'account_login' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {{ redirect_field }}
-        <div class="text-center mt-3">
-            <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+                <form method="post" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {{ redirect_field }}
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+                    </div>
+                </form>
+            </section>
         </div>
-    </form>
-</section>
+    </div>
+</article>
 
 {% endblock content %}

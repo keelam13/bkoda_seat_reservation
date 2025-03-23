@@ -10,13 +10,14 @@ body {
     padding-top: .5rem;
 }
 
-.search-box {
-    background: rgba(0, 0, 0, 0.5);
+/* Forms */
+.form-group {
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 1.5rem;
 }
 
-/* Trip List */
+/* Tables */
 .table-group {
     background: #69ddff;
     color: black;

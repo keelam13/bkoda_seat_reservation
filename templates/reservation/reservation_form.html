@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<article>
-    <h2 class="mb-4">Make a Reservation for Trip: {{ trip.trip_number }}</h2>
+<article class="container mt-5 text-white">
+    <section class="row justify-content-center">
+        <div class="col-md-6 form-group">
+            <h2 class="mb-4">Make a Reservation for Trip: {{ trip.trip_number }}</h2>
 
-    <form method="post" class="mb-4">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Reserve Seats</button>
-    </form>
+            <form method="post" class="mb-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Reserve Seats</button>
+            </form>
+        </div>
+    </section>
 </article>
 
 {% endblock %}

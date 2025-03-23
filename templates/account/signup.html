@@ -2,28 +2,30 @@
 {% load allauth i18n %}
 
 {% block content %}
-<article>
-    <header class="mb-4 text-center">
-        <h1>{% trans "Sign Up" %}</h1>
-    </header>
+<article class="container mt-5 text-white">
+    <div class="row justify-content-center">
+        <div class="col-md-6 form-group">
+            <header class="mb-4 text-center">
+                <h1>{% trans "Sign Up" %}</h1>
+            </header>
 
-    <section class="mb-4 text-center">
-        <p class="lead">{% blocktranslate %}
-            Already have an account? Then please
-            <a href="{{ login_url }}">sign in</a>.
-            {% endblocktranslate %}
-        </p>
-    </section>
+            <section class="mb-4 text-center">
+                <p class="lead">{% blocktranslate %}
+                    Already have an account? Then please
+                    <a href="{{ login_url }}">sign in</a>.
+                    {% endblocktranslate %}
+                </p>
+            </section>
 
-    {% if not SOCIALACCOUNT_ONLY %}
-    <form method="post" action="{% url 'account_signup' %}" class="mb-4">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {{ redirect_field }}
-        <div class="text-center mt-3">
-            <button type="submit" class="btn btn-success">{% trans "Sign Up" %}</button>
+            <form method="post" action="{% url 'account_signup' %}" class="mb-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {{ redirect_field }}
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">{% trans "Sign Up" %}</button>
+                </div>
+            </form>
         </div>
-    </form>
-    {% endif %}
+    </div>
 </article>
 {% endblock content %}
