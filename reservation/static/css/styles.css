@@ -1,9 +1,7 @@
 body {
     background: url('/static/images/welcome_kabayan.webp')
         center center / cover no-repeat fixed;
-    color: white;
 }
-
 
 /* Home */
 .welcome-message{
@@ -16,4 +14,10 @@ body {
     background: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     padding: 1.5rem;
+}
+
+/* Trip List */
+.table-group {
+    background: #69ddff;
+    color: black;
 }
