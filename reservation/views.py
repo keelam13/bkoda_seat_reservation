@@ -6,9 +6,7 @@ from datetime import datetime, timedelta
 from .models import Trip, User, Reservation
 from .forms import ReservationForm
 
-print("view called")
 
-# Create your views here.
 def home_page(request):
     return render(request, 'index.html')
 
@@ -51,16 +49,11 @@ def find_trip(request):
                     print(f"Trip: {trip.date} {trip.time}")
                 return render(request, 'reservation/triplist.html', context)
             elif requested_date < today:
-                context["error"] = "Sorry, the date you requested is in the past."
-                # context["previous_day"] = previous_day
-                # context["next_day"] = next_day
-                # context["current_day"] = requested_date
-
-                # return render(request, 'reservation/triplist.html', context)
+                messages.error(request, "Sorry, the date you requested is in the past.")
             else:
-                context["error"] = "Sorry, there are no trips available yet."
+                messages.error(request, "Sorry, there are no trips available yet.")
         except ValueError:
-            context["error"] = "Invalid date format. Please use YYYY-MM-DD."
+            messages.error(request, "Invalid date format. Please use YYYY-MM-DD.")
     
     origins = Trip.objects.values_list('origin', flat=True).distinct()
     destinations = Trip.objects.values_list('destination', flat=True).distinct()
