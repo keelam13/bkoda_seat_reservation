@@ -7,6 +7,15 @@
             <h2 class="mb-4">Make a Reservation for Trip: {{ trip.trip_number }}</h2>
             <p>Date: <strong>{{ trip.date }}</strong></p>
             <p>Time: <strong>{{ trip.time }}</strong></p>
+            {% if form.errors %}
+            <ul class="errorlist text-danger">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+             </ul>
+            {% endif %}
             <form method="post" class="mb-4">
                 {% csrf_token %}
                 <p>Number of seats: {{ form.number_of_seats }}</p>
