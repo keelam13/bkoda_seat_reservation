@@ -7,12 +7,12 @@ class Command(BaseCommand):
     help = 'Generates sample trips'
 
     def handle(self, *args, **options):
-        start_date = datetime.now().date()
+        latest_trip = Trip.objects.order_by('-date').first()
+        start_date = latest_trip.date
         end_date = start_date + timedelta(days=14)  # Generate for the next 14 days
         time_intervals = [time(hour) for hour in range(6, 16, 2)]
 
-        current_date = start_date
-        while current_date <= end_date:
+        while start_date <= end_date:
             used_times_kb = set()  # Track used times for Kabayan-Baguio
             used_times_bk = set()  # Track used times for Baguio-Kabayan
 
@@ -20,15 +20,15 @@ class Command(BaseCommand):
             for _ in range(5):  # Generate 5 trips per day
                 trip_time = self.get_unique_time(time_intervals, used_times_kb)
                 used_times_kb.add(trip_time)
-                total_seats = 12
-                available_seats = total_seats
+                total_number_of_seats = 12
+                available_seats = total_number_of_seats
 
                 Trip.objects.create(
                     origin="Kabayan",
                     destination="Baguio City",
                     date=current_date,
                     time=trip_time,
-                    total_number_of_seats=total_seats,
+                    total_seats=total_number_of_seats,
                     available_seats=available_seats,
                     trip_number=f'KAB-BAG{current_date.strftime("%Y%m%d")}-{trip_time.strftime("%H%M")}'
                 )
@@ -37,15 +37,15 @@ class Command(BaseCommand):
             for _ in range(5):  # Generate 5 trips per day
                 trip_time = self.get_unique_time(time_intervals, used_times_bk)
                 used_times_bk.add(trip_time)
-                total_seats = 12
-                available_seats = total_seats
+                total_number_of_seats = 12
+                available_seats = total_number_of_seats
 
                 Trip.objects.create(
                     origin="Baguio",
                     destination="Kabayan",
                     date=current_date,
                     time=trip_time,
-                    total_number_of_seats=total_seats,
+                    total_seats=total_number_of_seats,
                     available_seats=available_seats,
                     trip_number=f'BAG-KAB-{current_date.strftime("%Y%m%d")}-{trip_time.strftime("%H%M")}'
                 )
