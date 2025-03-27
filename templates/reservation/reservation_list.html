@@ -31,6 +31,8 @@
                     <td>
                         {% if reservation.date|is_before_now:reservation.time %}
                         <span title="Past Trip">Past Trip</span>
+                        <a href="{% url 'cancel_reservation' reservation.id %}" class="btn btn-danger btn-sm"
+                            aria-label="Delete Reservation" title="Delete Reservation">Delete</a>
                         {% else %}
                         <a href="{% url 'edit_reservation' reservation.id %}" class="btn btn-primary btn-sm"
                             aria-label="Update Seats" title="Update Seats">Update</a>
