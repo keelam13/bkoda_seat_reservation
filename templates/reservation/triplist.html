@@ -16,10 +16,10 @@
     <p class="lead">Origin: <strong>{{ origin }}</strong>, Destination: <strong>{{ destination }}</strong></p>
     <div class="mb-3 d-flex flex-column flex-sm-row justify-content-sm-around">
         <a href="{% url 'find_trip' %}?date={{ previous_day|date:'Y-m-d' }}&origin={{ origin }}&destination={{ destination }}"
-            class="btn btn-sm btn-secondary mb-2 mb-sm-0" aria-label="Previous Day" title="Previous Day">Previous
+            class="btn btn-sm btn-success mb-2 mb-sm-0" aria-label="Previous Day" title="Previous Day">Previous
             Day</a>
         <a href="{% url 'find_trip' %}?date={{ next_day|date:'Y-m-d' }}&origin={{ origin }}&destination={{ destination }}"
-            class="btn btn-sm btn-secondary" aria-label="Next Day" title="Next Day">Next Day</a>
+            class="btn btn-sm btn-success" aria-label="Next Day" title="Next Day">Next Day</a>
     </div>
 
     <div class="table-responsive table-group">

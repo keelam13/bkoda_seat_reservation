@@ -1,7 +1,21 @@
-body {
+html, body {
     background: url('/static/images/welcome_kabayan.webp')
         center center / cover no-repeat fixed;
+    height: 100%; /* Ensure the body takes up the full viewport height */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
 }
+
+main {
+    flex: 1; /* Allow the main content to take up remaining space */
+  }
+  
+footer {
+    /* Your footer styles */
+    padding: 10px;
+    text-align: center;
+  }
 
 /* Home */
 .welcome-message {
