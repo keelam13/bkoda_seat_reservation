@@ -1,5 +1,5 @@
 setTimeout(function () {
     document.querySelectorAll('.alert').forEach(function (alert) {
-        alert.remove(); // Remove the alert element
+        alert.remove();
     });
-}, 5000); // 5 seconds
+}, 5000);

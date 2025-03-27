@@ -1,25 +1,33 @@
 {% extends 'base.html' %}
 {% load static %}
+{% url 'account_signup' as register_url %}
 
 <script src="{% static 'autocomplete_light/select2.js' %}"></script>
 
 {% block content %}
 <article class="text-white">
-    <section class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 text-center welcome-message">
-                {% if user.is_authenticated %}
-                <p class="lead">Welcome, <strong>{{ user.username }}</strong>!</p>
-                {% else %}
-                <p class="lead">Please <a href="{% url 'account_login' %}">log in</a> to access more features.</p>
-                {% endif %}
-            </div>
-        </div>
-    </section>
-
-    <section class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 form-group">
+    <div class="container mt-3">
+        <div class="row">
+            <section class="col-md-6 mt-2">
+                <div class="text-center welcome-message">
+                    {% if user.is_authenticated %}
+                    <p class="lead">Welcome, <strong>{{ user.username }}</strong>!</p>
+                    {% else %}
+                    <p class="lead">Please <a href="{% url 'account_login' %}">log in</a> to access more features.</p>
+                    {% endif %}
+                </div>
+                <div class="instructions-box">
+                    <p class="instruction-group">
+                        * To reserve seats you must be logged in, but if you still don't have an account please
+                        <span><a href="{% url 'account_signup' %}">sign up</a></span>.
+                        However, if you only want to see the trips for the day, you may search for trips without logging in.
+                        Search trips by entering origin or where you're coming from and your desired destination,
+                        the date of your travel, clicking the search button. A list of trips will then be displayed according
+                        to the origin, destination and date you provided. A reserve button is placed at the end of each trip.
+                    </p>
+                </div>
+            </section>
+            <section class="col-md-6 mt-2 form-group">
                 <h2 class="mb-4 text-center">Search Trips</h2>
                 <form action="{% url 'find_trip' %}" method="GET">
                     {% csrf_token %}
@@ -43,8 +51,8 @@
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </form>
-            </div>
+            </section>
         </div>
-    </section>
+    </div>
 </article>
 {% endblock %}
