@@ -19,7 +19,9 @@
             <form method="post" class="mb-4">
                 {% csrf_token %}
                 <p>Number of seats: {{ form.number_of_seats }}</p>
-                <button type="submit" class="btn btn-primary">Reserve Seats</button>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Reserve Seats</button>
+                </div>
             </form>
         </div>
     </section>
