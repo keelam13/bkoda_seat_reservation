@@ -13,9 +13,15 @@ main {
   
 footer {
     /* Your footer styles */
-    padding: 10px;
+    padding-top: 20px ;
     text-align: center;
-  }
+}
+
+a i {
+    color: white;
+    font-size: 2em;
+    margin-left: 10px;
+}
 
 /* Home */
 .welcome-message {
