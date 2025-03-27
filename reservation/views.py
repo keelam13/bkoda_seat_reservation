@@ -128,7 +128,7 @@ def make_reservation(request, trip_id):
 @login_required
 def reservation_list(request):
     """View to display the user's reservations."""
-    reservations = Reservation.objects.filter(user=request.user).order_by('date')
+    reservations = Reservation.objects.filter(user=request.user).order_by('-date', '-time')
     return render(request, 'reservation/reservation_list.html', {'reservations': reservations})
 
 

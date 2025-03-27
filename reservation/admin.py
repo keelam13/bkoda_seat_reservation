@@ -12,6 +12,7 @@ class TripAdmin(admin.ModelAdmin):
     search_fields = ('trip_number', 'origin', 'date')
     list_filter = ('origin', 'destination', 'date')
     inlines = [ReservationInline]
+    ordering = ('date', 'time')
 
     def reservation_count(self, obj):
         return obj.reservation_set.count()
