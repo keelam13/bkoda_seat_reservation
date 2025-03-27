@@ -6,10 +6,7 @@ from .models import Reservation
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['number_of_seats', 'date']
-        widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),
-        }
+        fields = ['number_of_seats']
 
     def clean_number_of_seats(self):
         number_of_seats = self.cleaned_data['number_of_seats']

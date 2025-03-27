@@ -94,16 +94,10 @@ def make_reservation(request, trip_id):
         form = ReservationForm(request.POST)
         if form.is_valid():
             number_of_seats = form.cleaned_data['number_of_seats']
-            reservation_date = form.cleaned_data['date']  # Assuming date field in form.
 
             # Check if enough seats are available
             if trip.available_seats < number_of_seats:
                 messages.error(request, "Not enough seats available.")
-                return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
-
-            # Check if reservation date matches trip date.
-            if reservation_date != trip.date:
-                messages.error(request, "Reservation date must match the trip date.")
                 return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
 
             # Create the reservation
@@ -151,11 +145,6 @@ def edit_reservation(request, reservation_id):
 
         if form.is_valid():
             number_of_seats = form.cleaned_data['number_of_seats']
-            reservation_date = form.cleaned_data['date']
-
-            if reservation_date != trip.date:
-                messages.error(request, "Reservation date must match the trip date.")
-                return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
 
             # Calculate the difference in seats
             seat_diff = number_of_seats - reserved_seats

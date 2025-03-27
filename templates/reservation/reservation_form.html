@@ -5,10 +5,11 @@
     <section class="row justify-content-center">
         <div class="col-md-6 form-group">
             <h2 class="mb-4">Make a Reservation for Trip: {{ trip.trip_number }}</h2>
-
+            <p>Date: <strong>{{ trip.date }}</strong></p>
+            <p>Time: <strong>{{ trip.time }}</strong></p>
             <form method="post" class="mb-4">
                 {% csrf_token %}
-                {{ form.as_p }}
+                <p>Number of seats: {{ form.number_of_seats }}</p>
                 <button type="submit" class="btn btn-primary">Reserve Seats</button>
             </form>
         </div>
