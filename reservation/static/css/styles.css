@@ -10,7 +10,8 @@ html, body {
 main {
     flex: 1; /* Allow the main content to take up remaining space */
   }
-  
+
+/* Footer */
 footer {
     /* Your footer styles */
     padding-top: 20px ;
@@ -47,6 +48,10 @@ a i {
 /* Forms */
 .form-group {
     padding: 1.5rem;
+}
+
+.username-request {
+    font-style: italic;
 }
 
 /* Tables */

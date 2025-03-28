@@ -2,7 +2,7 @@
 {% load allauth i18n %}
 
 {% block content %}
-<article class="container mt-5 text-white">
+<article class="container mt-2 text-white">
     <div class="row justify-content-center">
         <div class="col-md-6 form-group">
             <header class="mb-4 text-center">
@@ -10,11 +10,17 @@
             </header>
 
             <section class="mb-4 text-center">
-                <p class="lead">{% blocktranslate %}
+                {% blocktranslate %}
+                <p class="lead">
                     Already have an account? Then please
                     <a href="{{ login_url }}">sign in</a>.
-                    {% endblocktranslate %}
                 </p>
+                <p class="username-request">
+                    * For smoother reservation, please use your first and last names as your username.
+                    <br>
+                    (ex. MariaJose)
+                </p>
+                {% endblocktranslate %}
             </section>
 
             <form method="post" action="{% url 'account_signup' %}" class="mb-4">
