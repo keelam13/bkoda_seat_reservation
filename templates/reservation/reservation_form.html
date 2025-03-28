@@ -19,8 +19,9 @@
             <form method="post" class="mb-4">
                 {% csrf_token %}
                 <p>Number of seats: {{ form.number_of_seats }}</p>
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-around">
                     <button type="submit" class="btn btn-primary">Reserve Seats</button>
+                    <button type="button" class="btn btn-danger" onclick="goBack()">Back to trips</button>
                 </div>
             </form>
         </div>
