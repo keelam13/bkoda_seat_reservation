@@ -11,7 +11,7 @@ def home_page(request):
     """
     Renders the home page.
     """
-    return render(request, 'index.html')
+    return render(request, 'reservation/index.html')
 
 
 def find_trip(request):
@@ -65,7 +65,7 @@ def find_trip(request):
     destinations = Trip.objects.values_list('destination', flat=True).distinct()
     context['origins'] = origins
     context['destinations'] = destinations
-    return render(request, 'index.html', context)
+    return render(request, 'reservation/index.html', context)
 
 
 class OriginAutocomplete(autocomplete.Select2QuerySetView):
