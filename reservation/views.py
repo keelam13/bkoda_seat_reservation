@@ -126,7 +126,7 @@ def make_reservation(request, trip_id):
             messages.error(request, "Please correct the errors below.")
             return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
     else:
-        form = ReservationForm(initial={'date': trip.date}) # pre-fill date with trip date.
+        form = ReservationForm(trip=trip) 
         return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
 
 
@@ -141,16 +141,12 @@ def reservation_list(request):
 
 @login_required
 def edit_reservation(request, reservation_id):
-    """
-    View to edit a reservation.
-
-    Handles POST requests to update a reservation and GET requests to display the edit form.
-    """
+    """View to edit a reservation."""
     reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
-    trip = reservation.trip
+    trip = reservation.trip #get the trip from the reservation.
 
     if request.method == 'POST':
-        form = ReservationForm(request.POST, instance=reservation)
+        form = ReservationForm(request.POST, instance=reservation, trip=trip)
 
         if form.is_valid():
             form.save()  # Let the Reservation model's save() handle seat updates
@@ -160,8 +156,9 @@ def edit_reservation(request, reservation_id):
             messages.error(request, "Please correct the errors below.")
             return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
     else:
-        form = ReservationForm(instance=reservation)
+        form = ReservationForm(instance=reservation, trip=trip)
     return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
+
 
 
 @login_required
