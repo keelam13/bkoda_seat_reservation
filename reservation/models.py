@@ -14,8 +14,12 @@ class Trip(models.Model):
     total_seats = models.IntegerField()
     available_seats = models.IntegerField()
 
-    def __str__(self):
-        return self.trip_number
+    def update_available_seats(self, number_of_seats, operation='subtract'):
+        if operation == 'subtract':
+            self.available_seats -= number_of_seats
+        elif operation == 'add':
+            self.available_seats += number_of_seats
+        self.save()
 
 class Reservation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -24,5 +28,14 @@ class Reservation(models.Model):
     date = models.DateField()
     time = models.TimeField(null=True, blank=True)
 
-    def __str__(self):
-        return f"Reservation for {self.user.username} - {self.trip.trip_number} ({self.date})"
+    def save(self, *args, **kwargs):
+        # Check if the reservation is being created or updated
+        if self.pk:  # Updating existing reservation
+            original_seats = Reservation.objects.get(pk=self.pk).number_of_seats
+            seat_diff = self.number_of_seats - original_seats
+            if seat_diff != 0:
+                self.trip.update_available_seats(abs(seat_diff), 'subtract' if seat_diff > 0 else 'add')
+        else:  # Creating new reservation
+            self.trip.update_available_seats(self.number_of_seats, 'subtract')
+
+        super().save(*args, **kwargs)
