@@ -3,8 +3,10 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 
 
-# Create your models here.
 class Trip(models.Model):
+    """
+    Represents a trip with details like origin, destination, date, time, and seat availability.
+    """
     trip_id = models.AutoField(primary_key=True)
     trip_number = models.CharField(max_length=30, db_index=True)
     origin = models.CharField(max_length=30, db_index=True)
@@ -15,6 +17,13 @@ class Trip(models.Model):
     available_seats = models.IntegerField()
 
     def update_available_seats(self, number_of_seats, operation='subtract'):
+        """
+        Updates the available seats for the trip.
+
+        Args:
+            number_of_seats (int): The number of seats to add or subtract.
+            operation (str): 'subtract' to decrease seats, 'add' to increase seats. Defaults to 'subtract'.
+        """
         if operation == 'subtract':
             self.available_seats -= number_of_seats
         elif operation == 'add':
@@ -22,6 +31,9 @@ class Trip(models.Model):
         self.save()
 
 class Reservation(models.Model):
+    """
+    Represents a reservation made by a user for a trip.
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
     number_of_seats = models.IntegerField(default=1)
@@ -29,6 +41,9 @@ class Reservation(models.Model):
     time = models.TimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
+        """
+        Overrides the save method to update trip's available seats.
+        """
         # Check if the reservation is being created or updated
         if self.pk:  # Updating existing reservation
             original_seats = Reservation.objects.get(pk=self.pk).number_of_seats

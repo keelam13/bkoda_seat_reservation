@@ -8,10 +8,19 @@ from .forms import ReservationForm
 
 
 def home_page(request):
+    """
+    Renders the home page.
+    """
     return render(request, 'index.html')
 
 
 def find_trip(request):
+    """
+    Handles trip search and displays the list of available trips.
+
+    Retrieves search parameters from GET requests, filters trips based on origin,
+    destination, and date, and renders the trip list.
+    """
     context = {}
     requested_origin = request.GET.get('origin')
     requested_destination = request.GET.get('destination')
@@ -33,7 +42,6 @@ def find_trip(request):
 
             # Filter out past trips
             trip_list = [trip for trip in trip_list if datetime.combine(trip.date, trip.time) >= now]
-
             trip_list = sorted(trip_list, key=lambda trip: trip.time)
 
             if len(trip_list) > 0:
@@ -45,8 +53,6 @@ def find_trip(request):
                     'previous_day': previous_day,
                     'next_day': next_day,
                 }
-                for trip in trip_list:
-                    print(f"Trip: {trip.date} {trip.time}")
                 return render(request, 'reservation/triplist.html', context)
             elif requested_date < today:
                 messages.error(request, "Sorry, the date you requested is in the past.")
@@ -61,7 +67,11 @@ def find_trip(request):
     context['destinations'] = destinations
     return render(request, 'index.html', context)
 
+
 class OriginAutocomplete(autocomplete.Select2QuerySetView):
+    """
+    Autocomplete view for origin field.
+    """
     def get_queryset(self):
         qs = Trip.objects.values_list('origin', flat=True).distinct()
 
@@ -69,7 +79,11 @@ class OriginAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(origin__icontains=self.q)
         return qs
 
+
 class DestinationAutocomplete(autocomplete.Select2QuerySetView):
+    """
+    Autocomplete view for destination field.
+    """
     def get_queryset(self):
         qs = Trip.objects.values_list('destination', flat=True).distinct()
 
@@ -80,7 +94,11 @@ class DestinationAutocomplete(autocomplete.Select2QuerySetView):
 
 @login_required
 def make_reservation(request, trip_id):
-    """View to create a seat reservation."""
+    """
+    View to create a seat reservation.
+
+    Handles POST requests to create a reservation and GET requests to display the reservation form.
+    """
     trip = get_object_or_404(Trip, pk=trip_id)
 
     if request.method == 'POST':
@@ -94,7 +112,6 @@ def make_reservation(request, trip_id):
                 return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
 
             # Create the reservation
-            print(f"Trip time before assignment: {trip.time}")
             reservation = Reservation.objects.create(
                 user=request.user,
                 trip=trip,
@@ -102,8 +119,6 @@ def make_reservation(request, trip_id):
                 date=trip.date,
                 time=trip.time,
             )
-            print(f"Reservation time: {reservation.time}") 
-        
             messages.success(request, "Reservation successful!")
             return redirect('reservation_list')  # Redirect to reservation list
 
@@ -117,14 +132,20 @@ def make_reservation(request, trip_id):
 
 @login_required
 def reservation_list(request):
-    """View to display the user's reservations."""
+    """
+    View to display the user's reservations.
+    """
     reservations = Reservation.objects.filter(user=request.user).order_by('-date', '-time')
     return render(request, 'reservation/reservation_list.html', {'reservations': reservations})
 
 
 @login_required
 def edit_reservation(request, reservation_id):
-    """View to edit a reservation."""
+    """
+    View to edit a reservation.
+
+    Handles POST requests to update a reservation and GET requests to display the edit form.
+    """
     reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
     trip = reservation.trip
 
@@ -145,7 +166,11 @@ def edit_reservation(request, reservation_id):
 
 @login_required
 def cancel_reservation(request, reservation_id):
-    """View to cancel a reservation."""
+    """
+    View to cancel a reservation.
+
+    Handles POST requests to cancel a reservation and updates the trip's available seats.
+    """
     reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
     trip = reservation.trip
 

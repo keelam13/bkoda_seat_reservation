@@ -1,29 +1,34 @@
-"""
-URL configuration for bkoda project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from reservation import views
 
-print("urls called")
+"""
+URL configuration for the reservation app.
+
+This module defines the URL patterns for the reservation application.
+It includes URLs for:
+- Admin interface
+- User authentication (allauth)
+- Home page
+- Trip search and display
+- Autocomplete for origin and destination
+- Reservation creation, listing, editing, and cancellation.
+"""
+
 urlpatterns = [
+    # Admin URL
     path('admin/', admin.site.urls),
+
+    # Allauth URLs for user authentication
     path('accounts/', include('allauth.urls')),
+
+    # Home page URL
     path('', views.home_page, name='home'),
+
+    # Find trip search URL
     path('find_trip', views.find_trip, name="find_trip"),
+
+    # Autocomplete URLs for origin and destination fields
     path(
         'origin-autocomplete/',
         views.OriginAutocomplete.as_view(),
@@ -34,8 +39,16 @@ urlpatterns = [
         views.DestinationAutocomplete.as_view(),
         name='destination-autocomplete',
     ),
+
+    # Reservation creation URL
     path('create/<int:trip_id>', views.make_reservation, name="make_reservation"),
+
+    # User reservation list URL
     path('reservation_list/', views.reservation_list, name="reservation_list"),
+
+    # Reservation editing URL
     path('edit/<int:reservation_id>/', views.edit_reservation, name='edit_reservation'),
+
+    # Reservation cancellation URL
     path('cancel/<int:reservation_id>/', views.cancel_reservation, name='cancel_reservation'),
 ]
