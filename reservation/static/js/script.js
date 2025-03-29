@@ -15,3 +15,14 @@ function goBack() {
         window.history.back();
     }
 }
+
+
+document.getElementById('reset-password-button').addEventListener('click', function() {
+    document.getElementById('reset-password-message').style.display = 'block';
+    document.getElementById('reset-password-button').style.display = 'none';
+    document.getElementById('go-home-button').style.display = 'block';
+});
+
+document.getElementById('go-home-button').addEventListener('click', function() {
+    window.location.href = '/'; // Replace with your home page URL
+});
