@@ -25,7 +25,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'herokuapp.com',
@@ -98,9 +98,15 @@ TEMPLATES = [
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = '127.0.0.1'
-EMAIL_PORT = '8000'
-EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = 'bkodatravels@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+if not EMAIL_HOST_PASSWORD:
+    raise ValueError("EMAIL_HOST_PASSWORD environment variable is not set.")
+DEFAULT_FROM_EMAIL = 'bkodatravels@gmail.com'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none' # None for development
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
@@ -112,7 +118,7 @@ WSGI_APPLICATION = 'bkoda.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 # DATABASES = {
-#     'default': {
+#     'default':
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
