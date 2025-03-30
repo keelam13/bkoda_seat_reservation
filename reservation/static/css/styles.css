@@ -7,9 +7,17 @@ html, body {
     flex-direction: column;
 }
 
+/* Logo */
+a.navbar-brand.logo {
+    font-family: "Lilita One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 2rem;
+}
+  
 main {
     flex: 1;
-  }
+}
 
 /* Footer */
 footer {
