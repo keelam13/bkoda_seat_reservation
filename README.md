@@ -46,7 +46,7 @@ This application is designed for:
 |-------------|-------------|
 |[#10](https://github.com/keelam13/bkoda_seat_reservation/issues/10)|As a Frequent Passenger, I want to be able to easily log in to and log out from my account, so that I can have more access to the app's features.|
 
-#### **Boss Goals**
+#### **Administrator Goals**
 
 | Issue ID    | User Story |
 |-------------|-------------|
