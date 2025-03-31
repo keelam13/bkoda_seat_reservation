@@ -41,14 +41,26 @@ urlpatterns = [
     ),
 
     # Reservation creation URL
-    path('create/<int:trip_id>', views.make_reservation, name="make_reservation"),
+    path(
+        'create/<int:trip_id>',
+        views.make_reservation,
+        name="make_reservation",
+    ),
 
     # User reservation list URL
     path('reservation_list/', views.reservation_list, name="reservation_list"),
 
     # Reservation editing URL
-    path('edit/<int:reservation_id>/', views.edit_reservation, name='edit_reservation'),
+    path(
+        'edit/<int:reservation_id>/',
+        views.edit_reservation,
+        name='edit_reservation'
+    ),
 
     # Reservation cancellation URL
-    path('cancel/<int:reservation_id>/', views.cancel_reservation, name='cancel_reservation'),
+    path(
+        'cancel/<int:reservation_id>/',
+        views.cancel_reservation,
+        name='cancel_reservation'
+    ),
 ]

@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 
 class Trip(models.Model):
     """
-    Represents a trip with details like origin, destination, date, time, and seat availability.
+    Represents a trip with details like origin, destination, date, time,
+    and seat availability.
     """
     trip_id = models.AutoField(primary_key=True)
     trip_number = models.CharField(max_length=30, db_index=True)
@@ -22,13 +23,24 @@ class Trip(models.Model):
 
         Args:
             number_of_seats (int): The number of seats to add or subtract.
-            operation (str): 'subtract' to decrease seats, 'add' to increase seats. Defaults to 'subtract'.
+            operation (str): 'subtract' to decrease seats, 'add' to increase
+            seats. Defaults to 'subtract'.
         """
         if operation == 'subtract':
             self.available_seats -= number_of_seats
         elif operation == 'add':
             self.available_seats += number_of_seats
         self.save()
+
+    def __str__(self):
+        """
+        Returns a string representation of the trip.
+        """
+        return (
+            f"{self.trip_number}: {self.origin} to {self.destination}"
+            f"({self.date} {self.time})"
+        )
+
 
 class Reservation(models.Model):
     """
@@ -46,10 +58,12 @@ class Reservation(models.Model):
         """
         # Check if the reservation is being created or updated
         if self.pk:  # Updating existing reservation
-            original_seats = Reservation.objects.get(pk=self.pk).number_of_seats
+            original_seats = Reservation.objects.get(
+                pk=self.pk).number_of_seats
             seat_diff = self.number_of_seats - original_seats
             if seat_diff != 0:
-                self.trip.update_available_seats(abs(seat_diff), 'subtract' if seat_diff > 0 else 'add')
+                self.trip.update_available_seats(
+                    abs(seat_diff), 'subtract' if seat_diff > 0 else 'add')
         else:  # Creating new reservation
             self.trip.update_available_seats(self.number_of_seats, 'subtract')
 

@@ -18,10 +18,20 @@ class TripAdmin(admin.ModelAdmin):
     """
     Admin interface for the Trip model.
 
-    Provides list display, filtering, search functionality, and inline editing for Trip objects.
-    Also calculates and displays the total number of seats reserved for each trip.
+    Provides list display, filtering, search functionality, and inline
+    editing for Trip objects.
+    Also calculates and displays the total number of seats reserved
+    for each trip.
     """
-    list_display = ('trip_number', 'origin', 'destination', 'date', 'time', 'total_seats', 'available_seats', 'total_seats_reserved')
+    list_display = (
+        'trip_number',
+        'origin',
+        'destination',
+        'date',
+        'time',
+        'total_seats',
+        'available_seats',
+        'total_seats_reserved')
     list_filter = ('origin', 'destination', 'date')
     search_fields = ('trip_number', 'origin', 'destination')
     inlines = [ReservationInline]
@@ -35,9 +45,11 @@ class TripAdmin(admin.ModelAdmin):
             obj (Trip): The Trip object for which to calculate reserved seats.
 
         Returns:
-            int: The total number of seats reserved, or 0 if no reservations exist.
+            int: The total number of seats reserved, or 0 if no reservations
+            exist.
         """
-        total_reserved = Reservation.objects.filter(trip=obj).aggregate(total_reserved=Sum('number_of_seats'))['total_reserved'] or 0
+        total_reserved = Reservation.objects.filter(trip=obj).aggregate(
+            total_reserved=Sum('number_of_seats'))['total_reserved'] or 0
         return total_reserved
 
     total_seats_reserved.short_description = 'Total Seats Reserved'
@@ -47,14 +59,20 @@ class TripAdmin(admin.ModelAdmin):
 class ReservationAdmin(admin.ModelAdmin):
     """
     Admin interface for the Reservation model.
-
-    Provides list display, filtering, search functionality, and read-only user field.
+    Provides list display, filtering, search functionality, and read-only
+    user field.
     """
     list_display = ('id', 'user', 'trip', 'date', 'time', 'number_of_seats')
     list_filter = ('user', 'trip', 'date')
-    search_fields = ('user__username', 'trip__trip_number', 'trip__origin', 'id', 'date')
+    search_fields = (
+        'user__username',
+        'trip__trip_number',
+        'trip__origin',
+        'id',
+        'date'
+    )
     ordering = ('-date', '-time')
-    readonly_fields = ('user',) # User can not be changed from the admin panel.
+    readonly_fields = ('user',)  # User can't be changed from the admin panel.
     fieldsets = (
         ('Reservation Details', {
             'fields': ('user', 'trip', 'date', 'time', 'number_of_seats')

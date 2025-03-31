@@ -18,8 +18,8 @@ def find_trip(request):
     """
     Handles trip search and displays the list of available trips.
 
-    Retrieves search parameters from GET requests, filters trips based on origin,
-    destination, and date, and renders the trip list.
+    Retrieves search parameters from GET requests, filters trips based
+    on origin, destination, and date, and renders the trip list.
     """
     context = {}
     requested_origin = request.GET.get('origin')
@@ -30,7 +30,9 @@ def find_trip(request):
 
     if requested_date_str and requested_origin and requested_destination:
         try:
-            requested_date = datetime.strptime(requested_date_str, '%Y-%m-%d').date()
+            requested_date = datetime.strptime(
+                requested_date_str, '%Y-%m-%d'
+                ).date()
             previous_day = requested_date - timedelta(days=1)
             next_day = requested_date + timedelta(days=1)
 
@@ -41,7 +43,9 @@ def find_trip(request):
             )
 
             # Filter out past trips
-            trip_list = [trip for trip in trip_list if datetime.combine(trip.date, trip.time) >= now]
+            trip_list = [trip for trip in trip_list if datetime.combine(
+                trip.date, trip.time
+                ) >= now]
             trip_list = sorted(trip_list, key=lambda trip: trip.time)
 
             if len(trip_list) > 0:
@@ -55,14 +59,22 @@ def find_trip(request):
                 }
                 return render(request, 'reservation/triplist.html', context)
             elif requested_date < today:
-                messages.error(request, "Sorry, the date you requested is in the past.")
+                messages.error(
+                    request, "Sorry, the date you requested is in the past."
+                )
             else:
-                messages.error(request, "Sorry, there are no trips available yet.")
+                messages.error(
+                    request, "Sorry, there are no trips available yet."
+                )
         except ValueError:
-            messages.error(request, "Invalid date format. Please use YYYY-MM-DD.")
-    
+            messages.error(
+                request, "Invalid date format. Please use YYYY-MM-DD."
+            )
+
     origins = Trip.objects.values_list('origin', flat=True).distinct()
-    destinations = Trip.objects.values_list('destination', flat=True).distinct()
+    destinations = Trip.objects.values_list(
+        'destination', flat=True
+    ).distinct()
     context['origins'] = origins
     context['destinations'] = destinations
     return render(request, 'reservation/index.html', context)
@@ -97,7 +109,8 @@ def make_reservation(request, trip_id):
     """
     View to create a seat reservation.
 
-    Handles POST requests to create a reservation and GET requests to display the reservation form.
+    Handles POST requests to create a reservation and GET requests
+    to display the reservation form.
     """
     trip = get_object_or_404(Trip, pk=trip_id)
 
@@ -109,7 +122,11 @@ def make_reservation(request, trip_id):
             # Check if enough seats are available
             if trip.available_seats < number_of_seats:
                 messages.error(request, "Not enough seats available.")
-                return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
+                return render(
+                    request,
+                    'reservation/reservation_form.html',
+                    {'form': form, 'trip': trip}
+                )
 
             # Create the reservation
             reservation = Reservation.objects.create(
@@ -124,10 +141,18 @@ def make_reservation(request, trip_id):
 
         else:
             messages.error(request, "Please correct the errors below.")
-            return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
+            return render(
+                request,
+                'reservation/reservation_form.html',
+                {'form': form, 'trip': trip}
+            )
     else:
-        form = ReservationForm(trip=trip) 
-        return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
+        form = ReservationForm(trip=trip)
+        return render(
+            request,
+            'reservation/reservation_form.html',
+            {'form': form, 'trip': trip}
+        )
 
 
 @login_required
@@ -135,30 +160,47 @@ def reservation_list(request):
     """
     View to display the user's reservations.
     """
-    reservations = Reservation.objects.filter(user=request.user).order_by('-date', '-time')
-    return render(request, 'reservation/reservation_list.html', {'reservations': reservations})
+    reservations = Reservation.objects.filter(
+        user=request.user
+    ).order_by('-date', '-time')
+    return render(
+        request,
+        'reservation/reservation_list.html',
+        {'reservations': reservations}
+    )
 
 
 @login_required
 def edit_reservation(request, reservation_id):
     """View to edit a reservation."""
-    reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
-    trip = reservation.trip #get the trip from the reservation.
+    reservation = get_object_or_404(
+        Reservation,
+        id=reservation_id,
+        user=request.user
+    )
+    trip = reservation.trip  # Get the trip from the reservation.
 
     if request.method == 'POST':
         form = ReservationForm(request.POST, instance=reservation, trip=trip)
 
         if form.is_valid():
-            form.save()  # Let the Reservation model's save() handle seat updates
+            form.save()  # Let Reservation model's save() handle seat updates
             messages.success(request, "Reservation updated successfully!")
             return redirect('reservation_list')
         else:
             messages.error(request, "Please correct the errors below.")
-            return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
+            return render(
+                request,
+                'reservation/reservation_form.html',
+                {'form': form, 'trip': trip}
+            )
     else:
         form = ReservationForm(instance=reservation, trip=trip)
-    return render(request, 'reservation/reservation_form.html', {'form': form, 'trip': trip})
-
+    return render(
+        request,
+        'reservation/reservation_form.html',
+        {'form': form, 'trip': trip}
+    )
 
 
 @login_required
@@ -166,9 +208,14 @@ def cancel_reservation(request, reservation_id):
     """
     View to cancel a reservation.
 
-    Handles POST requests to cancel a reservation and updates the trip's available seats.
+    Handles POST requests to cancel a reservation and updates the trip's
+    available seats.
     """
-    reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
+    reservation = get_object_or_404(
+        Reservation,
+        id=reservation_id,
+        user=request.user
+    )
     trip = reservation.trip
 
     if request.method == 'POST':
@@ -179,4 +226,8 @@ def cancel_reservation(request, reservation_id):
         messages.success(request, "Reservation canceled successfully!")
         return redirect('reservation_list')
 
-    return render(request, 'reservation/cancel_confirmation.html', {'reservation': reservation})
+    return render(
+        request,
+        'reservation/cancel_confirmation.html',
+        {'reservation': reservation}
+    )
