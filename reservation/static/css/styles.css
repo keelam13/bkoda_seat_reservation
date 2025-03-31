@@ -14,7 +14,17 @@ a.navbar-brand.logo {
     font-style: normal;
     font-size: 2rem;
 }
-  
+
+h2.welcome {
+    font-size: xx-large;
+    font-weight: 900;
+    text-align: center;
+    color: black;
+}
+
+h2.hide {
+    display: none;
+}
 main {
     flex: 1;
 }
