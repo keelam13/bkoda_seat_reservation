@@ -90,8 +90,19 @@ As a Frequent Passenger, I want to be able to easily log in to and log out from 
 |As an Administrator I want to add scheduled trips and if needed delete them to cater to the demands for transportation.|Administrator is able to schedule more trips and delete scheduled trips when needed.|![Manage Trip](documentation/features/manage_trip.png)|
 
 |As an Administrator I want to see an overview of the reservations to check if scheduled trips are being booked.|Administrator can see the list of bookings per scheduled trip.|![Reservation Overview](documentation/features/reservation_overview.png)|
+
 ---
 
+## Bugs
+Unfortunately, there are still a lot of bugs that are causing the app to not fully function. I was not able to debug them in time.
+- The autocomplete on the search form.
+- Reseting Password, and also the supposedly alternate message was not displaying.
+- I also supposed to add first and last names, and mobile number fields on the sign ups page but somehow it didn't work.
+- As well as social acount, using facebook to sign up.
+- And some others.
+- I'd like to continue working on this app though for the next project.
+
+---
 
 ## Validation:
 ### HTML Validation:
@@ -136,7 +147,7 @@ As a Frequent Passenger, I want to be able to easily log in to and log out from 
 
 - [Full HTML Validation Report](documentation/validation/html_validation.pdf)
 
-- No errors or warnings were found when passing through the official [W3C](https://validator.w3.org/) validator. This checking was done manually by copying the view page source code (Ctrl+U) and pasting it into the validator.
+- Aside from the Sign up Page there were no errors or warnings were found in other pages when passing through the official [W3C](https://validator.w3.org/) validator. This checking was done manually by copying the view page source code (Ctrl+U) and pasting it into the validator. In SIn up Page the errors were
 
 ### CSS Validation:
 
@@ -204,27 +215,6 @@ As a Frequent Passenger, I want to be able to easily log in to and log out from 
 
 ![Logout Page](documentation/validation/validation-lighthouse-logout.png)
 
-* Reset Password Page
-
-![Reset Password Page](documentation/validation/validation-lighthouse-reset.png)
-
- Trip List Page
-
-![Trip List Page](documentation/validation/validation-lighthouse-triplist.png)
-
- Reservation Form Page
-
-![Reservation Form Page](documentation/validation/validation-lighthouse-reservation-form.png)
-
- Reservation List Page
-
-![Reservation List Page](documentation/validation/validation-lighthouse-reservation_list.png)
-
- Cancel Reservation Page
-
-![Cancel Reservation Page](documentation/validation/validation-lighthouse-cancel.png)
-
-
 
 ---
 
@@ -236,17 +226,11 @@ Testing was conducted on the following browsers;
 - Chrome;
 - Firefox;
 
-[Compatibility Report](documentation/compatibility/compatibility.pdf)
-
-
 ---
 
 # Responsiveness
 
 The responsiveness was checked manually by using devtools (Chrome) throughout the whole development. It was also checked with [Responsive Viewer](https://chrome.google.com/webstore/detail/responsive-viewer/inmopeiepgfljkpkidclfgbgbmfcennb/related?hl=en) Chrome extension.
-
-[Responsiveness Report](documentation/responsiveness/responsiveness.pdf)
-
 
 
 ---
