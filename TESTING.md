@@ -96,6 +96,44 @@ As a Frequent Passenger, I want to be able to easily log in to and log out from 
 ## Validation:
 ### HTML Validation:
 
+
+* Home Page
+
+![Home Page](documentation/validation/validation-html-home.png)
+
+ Signup Page
+
+![Signup Page](documentation/validation/validation-html-signup.png)
+
+* Login Page
+
+![Login Page](documentation/validation/validation-html-login.png)
+
+* Logout Page
+
+![Logout Page](documentation/validation/validation-html-logout.png)
+
+* Reset Password Page
+
+![Reset Password Page](documentation/validation/validation-html-reset.png)
+
+ Trip List Page
+
+![Trip List Page](documentation/validation/validation-html-triplist.png)
+
+ Reservation Form Page
+
+![Reservation Form Page](documentation/validation/validation-html-reservation-form.png)
+
+ Reservation List Page
+
+![Reservation List Page](documentation/validation/validation-html-reservation_list.png)
+
+ Cancel Reservation Page
+
+![Cancel Reservation Page](documentation/validation/validation-html-cancel.png)
+
+
 - [Full HTML Validation Report](documentation/validation/html_validation.pdf)
 
 - No errors or warnings were found when passing through the official [W3C](https://validator.w3.org/) validator. This checking was done manually by copying the view page source code (Ctrl+U) and pasting it into the validator.
@@ -150,23 +188,41 @@ As a Frequent Passenger, I want to be able to easily log in to and log out from 
 ---
 ## Lighthouse Report
 
-### Home Page
+* Home Page
 
-![Lighthouse Report. Home Page](documentation/lighthouse_reports/lighthouse_home.png)
+![Home Page](documentation/validation/validation-lighthouse-home.png)
 
-### Login Page
+ Signup Page
 
-![Lighthouse Report. Login Page](documentation/lighthouse_reports/lighthouse_signin.png)
+![Signup Page](documentation/validation/validation-lighthouse-signup.png)
 
-### Logout Page
+* Login Page
 
-![Lighthouse Report. Logout Page](documentation/lighthouse_reports/lighthouse_logout.png)
+![Login Page](documentation/validation/validation-lighthouse-signin.png)
 
-### Forgot Password Page
+* Logout Page
 
-![Lighthouse Report. Forgot Password Page](documentation/lighthouse_reports/lighthouse_forgot_password.png)
+![Logout Page](documentation/validation/validation-lighthouse-logout.png)
 
-### Access Limited Page
+* Reset Password Page
+
+![Reset Password Page](documentation/validation/validation-lighthouse-reset.png)
+
+ Trip List Page
+
+![Trip List Page](documentation/validation/validation-lighthouse-triplist.png)
+
+ Reservation Form Page
+
+![Reservation Form Page](documentation/validation/validation-lighthouse-reservation-form.png)
+
+ Reservation List Page
+
+![Reservation List Page](documentation/validation/validation-lighthouse-reservation_list.png)
+
+ Cancel Reservation Page
+
+![Cancel Reservation Page](documentation/validation/validation-lighthouse-cancel.png)
 
 
 
