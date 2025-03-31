@@ -22,8 +22,16 @@ class Command(BaseCommand):
         """
 
         latest_trip = Trip.objects.order_by('-date').first()
+
+        if latest_trip:
+            start_date = latest_trip.date + timedelta(days=1)
+        else:
+            # Handle the case where there are no trips
+            from datetime import date
+            start_date = date.today()
+
         start_date = latest_trip.date
-        end_date = start_date + timedelta(days=14)  # Generate for the next 14 days
+        end_date = start_date + timedelta(days=1)  # Generate for the next day
         time_intervals = [time(hour) for hour in range(6, 16, 2)]
 
         current_date = start_date
