@@ -1,4 +1,4 @@
-# Transportation Seat Reservation App - Features
+# BKODA Seat Reservation App - Features
 
 ## Application Pages
 
@@ -49,13 +49,13 @@ The application includes the following pages:
 ## Home Page
 
 - **Welcome Message:** Greets users and provides a brief overview of the application.
-- **"Get Started" Button:** Links to the registration page.
+- **"Sign Up" link:** Links to the registration page.
 - **Benefits Section:** Highlights key features and advantages of using the application.
 - **Call to Action:** Encourages users to sign up and begin booking.
 
 ## Registration Page
 
-- **Sign-up Form:** Collects user information (email, username, first name, last name, phone number, password).
+- **Sign-up Form:** Collects user information (email, username, password).
 - **Form Validation:** Ensures correct data entry.
 - **"Login" Link:** Redirects users to the login page.
 
