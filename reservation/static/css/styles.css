@@ -25,6 +25,7 @@ h2.welcome {
 h2.hide {
     display: none;
 }
+
 main {
     flex: 1;
 }

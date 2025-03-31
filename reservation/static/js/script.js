@@ -8,25 +8,17 @@ setTimeout(function () {
 }, 5000);
 
 
-// function goBack() {
-//     if (confirm("Are you sure you want to go back? Any unsaved changes may be lost.")) {
-//         window.history.back();
-//     }
-// }
+/**
+* Navigates the browser back to the previous page in history after confirmation.
+*/
+function goBack() {
+    if (confirm("Are you sure you want to go back? Any unsaved changes may be lost.")) {
+        window.history.back();
+    }
+}
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    /**
-    * Navigates the browser back to the previous page in history after confirmation.
-    */
-    document.getElementById('back-button').addEventListener('click', goBack);
-
-        function goBack() {
-            if (confirm("Are you sure you want to go back? Any unsaved changes may be lost.")) {
-                window.history.back();
-            }
-        }
-        
     /**
      * Adds event listeners to handle the password reset flow.
      */
